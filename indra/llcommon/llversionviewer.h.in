@@ -46,8 +46,7 @@ const char * const LL_VERSION_BUNDLE_ID = "org.VirtualHighwayviewer.virtualhighw
 
 #endif
 
-/**
- *  base version of singularity 1.8.2
- * /
+
+ 
  
 
