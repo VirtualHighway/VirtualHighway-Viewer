@@ -257,6 +257,7 @@ LLPointer<LLViewerTexture> gStartTexture;
 //
 extern S32 gStartImageWidth;
 extern S32 gStartImageHeight;
+extern std::string gWindowTitle;
 
 //
 // local globals
@@ -817,8 +818,8 @@ bool idle_startup()
 	if (STATE_BROWSER_INIT == LLStartUp::getStartupState())
 	{
 		LL_DEBUGS("AppInit") << "STATE_BROWSER_INIT" << LL_ENDL;
-		std::string msg = LLTrans::getString("LoginInitializingBrowser");
-		set_startup_status(0.03f, msg.c_str(), gAgent.mMOTD.c_str());
+		//std::string msg = LLTrans::getString("LoginInitializingBrowser");
+		//set_startup_status(0.03f, msg.c_str(), gAgent.mMOTD.c_str());
 		display_startup();
 		// LLViewerMedia::initBrowser();
 		LLStartUp::setStartupState( STATE_LOGIN_SHOW );
@@ -1550,7 +1551,7 @@ bool idle_startup()
 				{
 					name += " " + lastname;
 				}
-				gViewerWindow->getWindow()->setTitle(LLAppViewer::instance()->getWindowTitle() + "- " + name);
+				gViewerWindow->getWindow()->setTitle(gWindowTitle += "- " + name);
 				// Pass the user information to the voice chat server interface.
 				LLVoiceClient::getInstance()->userAuthorized(name, gAgentID);
 				// create the default proximal channel
@@ -1882,7 +1883,7 @@ bool idle_startup()
 		// Make sure agent knows correct aspect ratio
 		// FOV limits depend upon aspect ratio so this needs to happen before initializing the FOV below
 		LLViewerCamera::getInstance()->setViewHeightInPixels(gViewerWindow->getWindowDisplayHeight());
-		if (gViewerWindow->mWindow->getFullscreen())
+		if (gViewerWindow->getWindow()->getFullscreen())
 		{
 			LLViewerCamera::getInstance()->setAspect(gViewerWindow->getDisplayAspectRatio());
 		}
@@ -2880,6 +2881,7 @@ bool first_run_dialog_callback(const LLSD& notification, const LLSD& response)
 }
 
 
+LLColor4 get_text_color(const LLChat& chat, bool from_im = false); //llfloaterchat.cpp
 
 void set_startup_status(const F32 frac, const std::string& string, const std::string& msg)
 {
@@ -2893,12 +2895,17 @@ void set_startup_status(const F32 frac, const std::string& string, const std::st
 			LLChat chat;
 			chat.mText = new_d;
 			chat.mSourceType = (EChatSourceType)(CHAT_SOURCE_OBJECT+1);
-			LLFloaterChat::addChat(chat);
+			if(gConsole)
+				gConsole->addConsoleLine(chat.mText, gSavedSettings.getColor4("SystemChatColor"));
+			LLFloaterChat::addChatHistory(chat,false);
+
 			if(new_d == LLTrans::getString("LoginWaitingForRegionHandshake"))
 			{
 				chat.mText = "MOTD: "+msg;
 				chat.mSourceType = (EChatSourceType)(CHAT_SOURCE_OBJECT+1);
-				LLFloaterChat::addChat(chat);
+				if(gConsole)
+					gConsole->addConsoleLine(chat.mText, gSavedSettings.getColor4("SystemChatColor"));
+				LLFloaterChat::addChatHistory(chat,false);
 			}
 		}
 	}
@@ -3428,6 +3435,9 @@ void reset_login()
 		gLoginMenuBarView->setVisible( TRUE );
 		gLoginMenuBarView->setEnabled( TRUE );
 	}
+
+	// Clear the console
+	if (gConsole) gConsole->clear();
 
 	// Hide any other stuff
 	LLFloaterMap::hideInstance();

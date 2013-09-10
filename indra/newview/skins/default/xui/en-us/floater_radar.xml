@@ -6,7 +6,7 @@
 	<string name="TitleOneAvatar">Radar (1 Avatar)</string>
 	<string name="TitleWithCount">Radar ([COUNT] Avatars)</string>
 
-	<scroll_list name="avatar_list"
+	<scroll_list name="avatar_list" menu_file="menu_radar.xml"
 		    left="10" right="-10" top="-20" bottom="140" can_resize="true"
 		    column_padding="0" follows="left|top|bottom|right"
 		    draw_heading="true" multi_select="true" search_column="1"
@@ -361,6 +361,7 @@
 				<check_box follows="bottom|left" bottom_delta="0" left_delta="70" control_name="RadarColumnClientHidden" name="hide_client" label="Client"/>
 		</panel>
 	</tab_container>
+	<string name="Out Of Range">Out Of Range</string>
 	<string name="Moving">Moving</string>
 	<string name="Playing a gesture">Playing a gesture</string>
 	<string name="Playing a sound">Playing a sound</string>

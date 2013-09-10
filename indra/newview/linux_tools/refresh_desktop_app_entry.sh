@@ -12,10 +12,10 @@ function install_desktop_entry()
 
     local desktop_entry="\
 [Desktop Entry]\n\
-Name=Singularity\n\
+Name=VirtualHighway\n\
 Comment=Client for Online Virtual Worlds, such as Second Life\n\
-Exec=${installation_prefix}/singularity\n\
-Icon=${installation_prefix}/singularity_icon.png\n\
+Exec=${installation_prefix}/virtualhighway\n\
+Icon=${installation_prefix}/virtualhighway_icon.png\n\
 Terminal=false\n\
 Type=Application\n\
 Categories=Application;Network;\n\
@@ -24,7 +24,7 @@ X-Desktop-File-Install-Version=3.0"
 
     echo " - Installing menu entries in ${desktop_entries_dir}"
     mkdir -vp "${desktop_entries_dir}"
-    echo -e $desktop_entry > "${desktop_entries_dir}/singularity-viewer.desktop" || "Failed to install application menu!"
+    echo -e $desktop_entry > "${desktop_entries_dir}/virtualhighway-viewer.desktop" || "Failed to install application menu!"
 }
 
 if [ "$UID" == "0" ]; then

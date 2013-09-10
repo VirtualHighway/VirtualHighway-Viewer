@@ -35,6 +35,7 @@
 #include "llwearabletype.h"
 #include "lllocaltextureobject.h"
 
+class LLAPRFile;
 class LLMD5;
 class LLVisualParam;
 class LLTexGlobalColorInfo;
@@ -77,9 +78,6 @@ public:
 
 	virtual void	writeToAvatar(LLAvatarAppearance* avatarp);
 
-	BOOL				FileExportParams(FILE* file) const;
-	BOOL				FileExportTextures(FILE* file) const;
-	
 	enum EImportResult
 	{
 		FAILURE = 0,

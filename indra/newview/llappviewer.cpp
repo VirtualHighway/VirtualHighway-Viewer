@@ -158,6 +158,7 @@
 // Included so that constants/settings might be initialized
 // in save_settings_to_globals()
 #include "llbutton.h"
+#include "llcombobox.h"
 #include "llstatusbar.h"
 #include "llsurface.h"
 #include "llvosky.h"
@@ -299,10 +300,10 @@ BOOL gLogoutInProgress = FALSE;
 // Internal globals... that should be removed.
 static std::string gArgs;
 
-const std::string MARKER_FILE_NAME("Singularity.exec_marker");
-const std::string ERROR_MARKER_FILE_NAME("Singularity.error_marker");
-const std::string LLERROR_MARKER_FILE_NAME("Singularity.llerror_marker");
-const std::string LOGOUT_MARKER_FILE_NAME("Singularity.logout_marker");
+const std::string MARKER_FILE_NAME("VirtualHighway.exec_marker");
+const std::string ERROR_MARKER_FILE_NAME("VirtualHighway.error_marker");
+const std::string LLERROR_MARKER_FILE_NAME("VirtualHighway.llerror_marker");
+const std::string LOGOUT_MARKER_FILE_NAME("VirtualHighway.logout_marker");
 static BOOL gDoDisconnect = FALSE;
 static std::string gLaunchFileOnQuit;
 
@@ -365,7 +366,7 @@ const char *VFS_DATA_FILE_BASE = "data.db2.x.";
 const char *VFS_INDEX_FILE_BASE = "index.db2.x.";
 
 static std::string gSecondLife;
-static std::string gWindowTitle;
+std::string gWindowTitle;
 
 std::string gLoginPage;
 std::vector<std::string> gLoginURIs;
@@ -1195,7 +1196,7 @@ bool LLAppViewer::mainLoop()
 				// Scan keyboard for movement keys.  Command keys and typing
 				// are handled by windows callbacks.  Don't do this until we're
 				// done initializing.  JC
-				if (gViewerWindow->mWindow->getVisible()
+				if (gViewerWindow->getWindow()->getVisible()
 					&& gViewerWindow->getActive()
 					&& !gViewerWindow->getWindow()->getMinimized()
 					&& LLStartUp::getStartupState() == STATE_STARTED
@@ -1281,7 +1282,7 @@ bool LLAppViewer::mainLoop()
 
 				// yield cooperatively when not running as foreground window
 				if (   gNoRender
-					   || (gViewerWindow && !gViewerWindow->mWindow->getVisible())
+					   || (gViewerWindow && !gViewerWindow->getWindow()->getVisible())
 						|| !gFocusMgr.getAppHasFocus())
 				{
 					// Sleep if we're not rendering, or the window is minimized.
@@ -2347,7 +2348,7 @@ bool LLAppViewer::initConfiguration()
     }
 
 	// XUI:translate
-	gSecondLife = "Singularity Viewer";
+	gSecondLife = "VirtualHighway Viewer";
 
 	// Read skin/branding settings if specified.
 	//if (! gDirUtilp->getSkinDir().empty() )
@@ -2568,7 +2569,7 @@ bool LLAppViewer::initWindow()
 	
 	if (gSavedSettings.getBOOL("WindowMaximized"))
 	{
-		gViewerWindow->mWindow->maximize();
+		gViewerWindow->getWindow()->maximize();
 		gViewerWindow->getWindow()->setNativeAspectRatio(gSavedSettings.getF32("FullScreenAspectRatio"));
 	}
 
@@ -2606,7 +2607,7 @@ bool LLAppViewer::initWindow()
 	gViewerWindow->initBase();
 
 	// show viewer window
-	//gViewerWindow->mWindow->show();
+	//gViewerWindow->getWindow()->show();
 
 	LL_INFOS("AppInit") << "Window initialization done." << LL_ENDL;
 	return true;
@@ -2638,13 +2639,13 @@ void LLAppViewer::cleanupSavedSettings()
 
 	// save window position if not fullscreen
 	// as we don't track it in callbacks
-	BOOL fullscreen = gViewerWindow->mWindow->getFullscreen();
-	BOOL maximized = gViewerWindow->mWindow->getMaximized();
+	BOOL fullscreen = gViewerWindow->getWindow()->getFullscreen();
+	BOOL maximized = gViewerWindow->getWindow()->getMaximized();
 	if (!fullscreen && !maximized)
 	{
 		LLCoordScreen window_pos;
 
-		if (gViewerWindow->mWindow->getPosition(&window_pos))
+		if (gViewerWindow->getWindow()->getPosition(&window_pos))
 		{
 			gSavedSettings.setS32("WindowX", window_pos.mX);
 			gSavedSettings.setS32("WindowY", window_pos.mY);

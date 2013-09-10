@@ -1,8 +1,27 @@
+
 <llsd>
   <array>
 
     <map>
       <key>default_grids_version</key><string>21</string>
+    </map>
+    
+     <!-- Virtualhighway -->
+        <map>
+      <key>auto_update</key> <boolean>0</boolean>
+      <key>gridname</key> <string>VirtualHighway</string>
+      <key>gridnick</key> <string>virtualhighway</string>
+      <key>helperuri</key> <string>http://www.virtualhighway.us/griddal/</string>
+      <key>inventory_links</key> <boolean>0</boolean>
+      <key>loginpage</key> <string>http://virtualhighway.us/welcome.php</string>
+      <key>loginuri</key> <string>http://login.virtualhighway.us:8002</string>
+      <key>password</key> <string>http://www.virtualhighway.us/users/lostPassword</string>
+      <key>platform</key> <string>OpenSim</string>
+      <key>register</key> <string>http://www.virtualhighway.us/users/register</string>
+      <key>render_compat</key> <boolean>1</boolean>
+      <key>search</key> <string />
+      <key>support</key> <string>http://virtualhighway.us/vhweb/support/</string>
+      <key>website</key> <string>http://virtualhighway.us/vhweb/</string>
     </map>
 
     <!-- Second Life -->
@@ -52,10 +71,42 @@
       <key>register</key> <string>http://www.osgrid.org/</string>
       <key>render_compat</key> <boolean>1</boolean>
       <key>search</key> <string />
+      <key>support</key> <string>http://www.islandoasis.biz/Support.aspx</string>
+      <key>website</key> <string>http://www.islandoasis.biz/</string>
+    </map>
+    
+    <!-- InWorldz -->
+    <map>
+      <key>gridname</key>  <string>InWorldz</string>
+      <key>gridnick</key>  <string>inworldz</string>
+      <key>platform</key>  <string>OpenSim</string>
+      <key>loginuri</key>  <string>http://inworldz.com:8002/</string>
+      <key>loginpage</key> <string>http://inworldz.com/loginscreen.php</string>
+      <key>helperuri</key> <string>http://inworldz.com/</string>
+      <key>password</key>  <string>http://inworldz.com/loginerror.php?error=2</string>
+      <key>register</key>  <string>http://inworldz.com/register.php</string>
+      <key>support</key>   <string>http://inworldz.com/support.php</string>
+      <key>website</key>   <string>http://inworldz.com/</string>
+      <key>version</key>   <string>2</string>
+    </map> 
+    
+    <!-- OSGrid -->
+    <map>
+      <key>auto_update</key> <boolean>0</boolean>
+      <key>gridname</key> <string>Island Oasis</string>
+      <key>gridnick</key> <string>Island_Oasis</string>
+      <key>helperuri</key> <string>http://islandoasisgrid:8020/OsCurrency/</string>
+      <key>inventory_links</key> <boolean>0</boolean>
+      <key>loginpage</key> <string>http://www.islandoasis.biz/welcome.aspx</string>
+      <key>loginuri</key> <string>http://islandoasisgrid.biz:8002/</string>
+      <key>password</key> <string>http://www.islandoasis.biz/Login.aspx</string>
+      <key>platform</key> <string>OpenSim</string>
+      <key>register</key> <string>http://www.islandoasis.biz/verification.aspx</string>
+      <key>render_compat</key> <boolean>1</boolean>
+      <key>search</key> <string />
       <key>support</key> <string>http://www.osgrid.org/</string>
       <key>website</key> <string>http://www.osgrid.org/</string>
     </map>
-
     <!-- Local Host -->
     <map>
       <key>gridnick</key><string>local</string>

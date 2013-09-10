@@ -141,7 +141,7 @@ class ViewerManifest(LLManifest):
     def installer_prefix(self):
         mapping={"secondlife":'SecondLife_',
                  "snowglobe":'Snowglobe_',
-                 "singularity":'Singularity_'}
+                 "virtualhighway":'VirtualHighway'}
         return mapping[self.viewer_branding_id()]
 
     def flags_list(self):
@@ -191,6 +191,11 @@ class WindowsManifest(ViewerManifest):
                                'llplugin', 'slplugin', self.args['configuration'], "SLPlugin.exe"),
                   "SLPlugin.exe")
 
+        # Plugin volume control
+        if self.prefix(src=self.args['configuration'], dst=""):
+            self.path("winmm.dll")
+            self.end_prefix()
+
         self.path(src="licenses-win32.txt", dst="licenses.txt")
 
         self.path("featuretable.txt")
@@ -200,7 +205,7 @@ class WindowsManifest(ViewerManifest):
             self.path("libhunspell.dll")
             self.end_prefix()
 
-		# For mesh upload
+        # For mesh upload
         if self.prefix(src=self.args['configuration'], dst=""):
             self.path("libcollada14dom22.dll")
             self.path("glod.dll")
@@ -414,8 +419,8 @@ class WindowsManifest(ViewerManifest):
         !define INSTNAME   "%(channel_oneword)s"
         !define SHORTCUT   "%(channel)s Viewer"
         !define URLNAME   "secondlife"
-        !define INSTALL_ICON "install_icon_singularity.ico"
-        !define UNINSTALL_ICON "install_icon_singularity.ico"
+        !define INSTALL_ICON "install_icon_virtualhighway.ico"
+        !define UNINSTALL_ICON "install_icon_virtualhighway.ico"
         Caption "${VIEWERNAME} ${VERSION_LONG}"
         """
         if 'installer_name' in self.args:
@@ -485,7 +490,7 @@ class DarwinManifest(ViewerManifest):
                 self.path("SecondLife.nib")
 
                           # SG:TODO
-                self.path("../newview/res/singularity.icns", dst="singularity.icns")
+                self.path("../newview/res/virtualhighway.icns", dst="virtualhighway.icns")
 
                 # Translations
                 self.path("English.lproj")
@@ -594,10 +599,10 @@ class DarwinManifest(ViewerManifest):
                                  { 'viewer_binary' : self.dst_path_of('Contents/MacOS/'+self.app_name())})
 
     def app_name(self):
-        return "Singularity"
+        return "VirtualHighway"
 
     def info_plist_name(self):
-        return "Info-Singularity.plist"
+        return "Info-VirtualHighway.plist"
 
     def package_finish(self):
         channel_standin = self.app_name()
@@ -733,13 +738,13 @@ class LinuxManifest(ViewerManifest):
         self.path("featuretable_linux.txt")
 
     def wrapper_name(self):
-        return 'singularity'
+        return 'virtualhighway'
 
     def binary_name(self):
-        return 'singularity-do-not-run-directly'
+        return 'virtualhighway-do-not-run-directly'
 
     def icon_name(self):
-        return "singularity_icon.png"
+        return "virtualhighway_icon.png"
 
     def package_finish(self):
         if 'installer_name' in self.args:

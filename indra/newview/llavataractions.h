@@ -27,6 +27,7 @@
 #ifndef LL_LLAVATARACTIONS_H
 #define LL_LLAVATARACTIONS_H
 
+class LLAvatarName;
 class LLFloater;
 
 /**
@@ -86,6 +87,7 @@ public:
 	 * Show avatar profile.
 	 */
 	static void showProfile(const LLUUID& id, bool web = false);
+	static void showProfiles(const uuid_vec_t& ids, bool web = false);
 	static void hideProfile(const LLUUID& id);
 	static bool profileVisible(const LLUUID& id);
 	static LLFloater* getProfileFloater(const LLUUID& id);
@@ -99,6 +101,13 @@ public:
 	 * Give money to the avatar.
 	 */
 	static void pay(const LLUUID& id);
+
+	/**
+	 * Request teleport from other avatar
+	 */
+	static void teleportRequest(const LLUUID& id);
+	static void teleport_request_callback(const LLSD& notification, const LLSD& response);
+
 	/**
 	 * Block/unblock the avatar.
 	 */
@@ -180,6 +189,27 @@ public:
 	 */
 	static bool canOfferTeleport(const uuid_vec_t& ids);
 
+	/**
+	 * Builds a string of residents' display names separated by "words_separator" string.
+	 *
+	 * @param avatar_names - a vector of given avatar names from which resulting string is built
+	 * @param residents_string - the resulting string
+	 */
+	static void buildResidentsString(std::vector<LLAvatarName> avatar_names, std::string& residents_string);
+
+	/**
+	 * Builds a string of residents' display names separated by "words_separator" string.
+	 *
+	 * @param avatar_uuids - a vector of given avatar uuids from which resulting string is built
+	 * @param residents_string - the resulting string
+	 */
+	static void buildResidentsString(const uuid_vec_t& avatar_uuids, std::string& residents_string);
+
+	/**
+	 * Copy the selected avatar's UUID to clipboard
+	 */
+	static void copyUUIDs(const uuid_vec_t& id);
+
 private:
 	static bool callbackAddFriendWithMessage(const LLSD& notification, const LLSD& response);
 	static bool handleRemove(const LLSD& notification, const LLSD& response);
@@ -187,7 +217,8 @@ private:
 	static bool handleKick(const LLSD& notification, const LLSD& response);
 	static bool handleFreeze(const LLSD& notification, const LLSD& response);
 	static bool handleUnfreeze(const LLSD& notification, const LLSD& response);
-	static void callback_invite_to_group(LLUUID group_id, void* id);
+	static void callback_invite_to_group(LLUUID group_id, LLUUID id);
+	static void on_avatar_name_cache_teleport_request(const LLUUID& id, const LLAvatarName& av_name);
 
 public:
 	// Just request friendship, no dialog.

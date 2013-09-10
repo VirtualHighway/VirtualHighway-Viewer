@@ -174,6 +174,7 @@ void LLInventoryPanel::buildFolderView()
 	{
 		root_id = (preferred_type != LLFolderType::FT_NONE)
 				? gInventory.findCategoryUUIDForType(preferred_type, false, false)
+				: gInventory.getCategory(static_cast<LLUUID>(mStartFolder)) ? static_cast<LLUUID>(mStartFolder) // Singu Note: if start folder is an id of a folder, use it
 				: LLUUID::null;
 	}
 
@@ -479,6 +480,19 @@ void LLInventoryPanel::modelChanged(U32 mask)
 
 					view_item->refresh();
 				}
+				// Singu note: Needed to propagate name change to wearables.
+				view_item->nameOrDescriptionChanged();
+			}
+		}
+
+		//////////////////////////////
+		// DESCRIPTION Operation (singu only)
+		// Alert listener.
+		if ((mask & LLInventoryObserver::DESCRIPTION))
+		{
+			if (view_item)
+			{
+				view_item->nameOrDescriptionChanged();
 			}
 		}
 

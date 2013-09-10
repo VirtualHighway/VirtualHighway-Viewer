@@ -33,10 +33,12 @@
 
 #include "llpanelmsgs.h"
 
-#include "llscrolllistctrl.h"
-#include "lluictrlfactory.h"
-#include "llfirstuse.h"
 #include "llnotificationtemplate.h"
+#include "llscrolllistctrl.h"
+#include "llscrolllistitem.h"
+#include "lluictrlfactory.h"
+
+#include "llfirstuse.h"
 
 LLPanelMsgs::LLPanelMsgs()
 {
@@ -58,7 +60,7 @@ BOOL LLPanelMsgs::postBuild()
 
 	buildPopupLists();
 
-	childSetValue("accept_new_inventory", gSavedSettings.getBOOL("AutoAcceptNewInventory"));
+	childSetValue("accept_new_inventory", gSavedSettings.getBOOL("AutoAcceptAllNewInventory"));
 	childSetValue("show_new_inventory", gSavedSettings.getBOOL("ShowNewInventory"));
 	childSetValue("show_in_inventory", gSavedSettings.getBOOL("ShowInInventory"));
 
@@ -149,7 +151,7 @@ void LLPanelMsgs::buildPopupLists() //void LLFloaterPreference::buildPopupLists(
 
 void LLPanelMsgs::apply()
 {
-	gSavedSettings.setBOOL("AutoAcceptNewInventory", childGetValue("accept_new_inventory"));
+	gSavedSettings.setBOOL("AutoAcceptAllNewInventory", childGetValue("accept_new_inventory"));
 	gSavedSettings.setBOOL("ShowNewInventory", childGetValue("show_new_inventory"));
 	gSavedSettings.setBOOL("ShowInInventory", childGetValue("show_in_inventory"));
 }

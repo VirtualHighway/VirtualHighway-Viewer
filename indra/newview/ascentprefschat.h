@@ -86,6 +86,7 @@ protected:
 	bool mOneLineConfButt;
 	bool mOnlyComm;
 	bool mItalicizeActions;
+	bool mLegacySpeakerNames;
 
 	//Autoresponse ------------------------------------------------------------------------
 	std::string mIMResponseAnyoneItemID;
@@ -105,8 +106,11 @@ protected:
     BOOL mBlockGroupInviteSpam;
 	BOOL mBlockGroupFeeInviteSpam;
     BOOL mBlockItemOfferSpam;
+	bool mBlockNotMineSpam;
+	bool mBlockNotFriendSpam;
     BOOL mBlockScriptSpam;
     BOOL mBlockTeleportSpam;
+	bool mBlockTeleportRequestSpam;
     BOOL mNotifyOnSpam;
     BOOL mSoundMulti;
     U32  mNewLines;

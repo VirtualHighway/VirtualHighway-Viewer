@@ -139,9 +139,9 @@ LLDir_Solaris::LLDir_Solaris()
 	llinfos << "mExecutablePathAndName = [" << mExecutablePathAndName << "]" << llendl;
 
 	//NOTE: Why force people to cd into the package directory?
-	//      Look for SECONDLIFE env variable and use it, if set.
+	//      Look for VIRTUALHIGHWAY env variable and use it, if set.
 
-	char *dcf = getenv("SECONDLIFE");
+	char *dcf = getenv("VIRTUALHIGHWAY");
 	if(dcf != NULL){
 		(void)strcpy(path, dcf);
 		(void)strcat(path, "/bin");	//NOTE:  make sure we point at the bin
@@ -163,7 +163,7 @@ LLDir_Solaris::LLDir_Solaris()
 	
 	mLLPluginDir = mExecutableDir + mDirDelimiter + "llplugin";
 
-	// *TODO: don't use /tmp, use $HOME/.secondlife/tmp or something.
+	// *TODO: don't use /tmp, use $HOME/.virtualhighway/tmp or something.
 	mTempDir = "/tmp";
 }
 
@@ -190,7 +190,7 @@ void LLDir_Solaris::initAppDirs(const std::string &app_name,
 	char* app_home_env = getenv((upper_app_name + "_USER_DIR").c_str());	/* Flawfinder: ignore */ 
 	if (app_home_env)
 	{
-		// user has specified own userappdir i.e. $SECONDLIFE_USER_DIR
+		// user has specified own userappdir i.e. $VIRTUALHIGHWAY_USER_DIR
 		mOSUserAppDir = app_home_env;
 	}
 	else

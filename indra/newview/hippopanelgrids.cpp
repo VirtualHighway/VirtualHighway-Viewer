@@ -199,7 +199,7 @@ void HippoPanelGridsImpl::refresh()
 	childSetEnabled("btn_default", (mState == NORMAL) && (selectIndex > 0));
 	childSetEnabled("gridname", (mState == ADD_NEW) || (mState == ADD_COPY));
 	
-	if (childGetValue("platform").asString() == "SecondLife") {
+	if (childGetValue("platform").asString() == "VirtualHighway") {
 		// disable platform selector, if logged into the grid edited and it is SL
 		// so object export restrictions cannot be circumvented by changing the platform
 		bool enablePlatform = (LLStartUp::getStartupState() < STATE_LOGIN_CLEANUP) ||

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <floater name="Day Cycle Floater" title="Tageszyklus-Editor">
 	<tab_container name="Day Cycle Tabs">
-		<panel label="Tageszyklus" name="Day Cycle">
+		<panel label="Tageszykl." name="Day Cycle">
 			<button label="?" name="WLDayCycleHelp"/>
-			<multi_slider label="Report-Msgid-Bugs-To: &#10;POT-Creation-Date: 2013-07-05 04:37+0200&#10;PO-Revision-Date: 2013-07-05 00:15+0200&#10;Last-Translator: Leonie &lt;saphira@terror-twins.de&gt;&#10;Language: de&#10;MIME-Version: 1.0&#10;Content-Type: text/plain; charset=UTF-8&#10;Content-Transfer-Encoding: 8bit&#10;Plural-Forms: nplurals=2; plural=(n != 1);&#10;X-Generator: Pootle 2.1.5&#10;" name="WLTimeSlider"/>
-			<multi_slider label="Report-Msgid-Bugs-To: &#10;POT-Creation-Date: 2013-07-05 04:37+0200&#10;PO-Revision-Date: 2013-07-05 00:15+0200&#10;Last-Translator: Leonie &lt;saphira@terror-twins.de&gt;&#10;Language: de&#10;MIME-Version: 1.0&#10;Content-Type: text/plain; charset=UTF-8&#10;Content-Transfer-Encoding: 8bit&#10;Plural-Forms: nplurals=2; plural=(n != 1);&#10;X-Generator: Pootle 2.1.5&#10;" name="WLDayCycleKeys"/>
+			
+			
 			<text name="WL12am">0:00</text>
 			<text name="WL3am">3:00</text>
 			<text name="WL6am">6:00</text>
@@ -23,7 +23,7 @@
 			<text name="WL6pmHash">|</text>
 			<text name="WL9pmHash">I</text>
 			<text name="WL12amHash2">|</text>
-			<button label="Schlüssel hinzufügen" label_selected="Schlüssel hinzufügen" name="WLAddKey"/>
+			<button label="Schlüssel hinzuf." label_selected="Schlüssel hinzuf." name="WLAddKey"/>
 			<button label="Schlüssel löschen" label_selected="Schlüssel löschen" name="WLDeleteKey"/>
 			<text name="WLCurKeyFrameText">Keyframe-Einstellungen:</text>
 			<text name="WLCurKeyTimeText">Key-Zeit:</text>
@@ -31,7 +31,7 @@
 			<spinner label="Min." name="WLCurKeyMin"/>
 			<text name="WLCurKeyTimeText2">Key-Voreinstellung:</text>
 			<combo_box label="Voreinstellung" name="WLKeyPresets"/>
-			<view_border/>
+			
 			<text name="DayCycleText">Einrasten:</text>
 			<combo_box label="5 min" name="WLSnapOptions"/>
 			<text name="DayCycleText2">Zykluslänge:</text>
@@ -43,7 +43,7 @@
 			<button label="Stopp" label_selected="Stop" name="WLStopAnimSky"/>
 			<button label="Grundstückszeit verw" label_selected="Zur Grundstückszeit" name="WLUseLindenTime"/>
 			<text name="KeyFramePresetsText">Voreinstellungen:</text>
-			<combo_box name="DayCyclePresetsCombo"/>
+			
 			<button label="Neu" label_selected="Neu" name="DayCycleNewPreset"/>
 			<button label="Speichern" label_selected="Speichern" name="DayCycleSavePreset"/>
 			<button label="Löschen" label_selected="Löschen" name="DayCycleDeletePreset"/>

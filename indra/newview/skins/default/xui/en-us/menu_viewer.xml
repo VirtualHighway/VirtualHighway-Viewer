@@ -309,6 +309,10 @@
 		     mouse_opaque="true" name="Reset View" shortcut="Esc" width="211">
 			<on_click function="View.ResetView" userdata="" />
 		</menu_item_call>
+		<menu_item_check label="Motion Resets Camera" name="Motion Resets Camera" shortcut="alt|shift|R">
+			<on_click function="ToggleControl" userdata="SinguMotionResetsCamera"/>
+			<on_check control="SinguMotionResetsCamera"/>
+		</menu_item_check>
 		<menu_item_call bottom="-86" enabled="false" height="19" label="Look at Last Chatter" left="0"
 		     mouse_opaque="true" name="Look at Last Chatter" shortcut="control|\"
 		     width="211">
@@ -740,7 +744,7 @@
 		<menu_item_separator bottom="-243" enabled="true" height="8" label="-----------" left="0"
 		     mouse_opaque="true" name="separator3" width="250" />
 		<menu_item_check bottom="" enabled="false" height="" label="Edit Linked Parts" left=""
-		     mouse_opaque="true" name="Edit Linked Parts" shortcut="" width="">
+		     mouse_opaque="true" name="Edit Linked Parts" shortcut="control|shift|E">
 			<on_click function="ToggleControl" userdata="EditLinkedParts" />
 			<on_click function="Tools.EditLinkedParts" userdata="" />
 			<on_check control="EditLinkedParts" />
@@ -893,10 +897,10 @@
 	<menu bottom="219" create_jump_keys="true" drop_shadow="true" enabled="true"
 	     height="317" label="Help" left="227" mouse_opaque="false" name="Help"
 	     opaque="true" tear_off="true" width="166">
-		<menu_item_call bottom="-29" enabled="true" height="19" label="Second Life Help" left="0"
+		<!--menu_item_call bottom="-29" enabled="true" height="19" label="Second Life Help" left="0"
 		     mouse_opaque="true" name="Second Life Help" shortcut="F1" width="166">
 			<on_click function="ShowFloater" userdata="help f1" />
-		</menu_item_call>
+		</menu_item_call-->
 		<menu_item_call bottom="-48" enabled="true" height="19" label="Tutorial" left="0"
 		     mouse_opaque="true" name="Tutorial" width="166">
 			<on_click function="ShowFloater" userdata="help tutorial" />
@@ -944,10 +948,10 @@
 				<on_click function="PromptShowURL" name="PublicIssueTrackerHelp_url"
 				     userdata="WebLaunchPublicIssueHelp,http://wiki.secondlife.com/wiki/Issue_tracker" />
 			</menu_item_call>
-			<menu_item_call bottom="-94" enabled="true" height="19" label="Singularity Issue Tracker..."
-			     left="0" mouse_opaque="true" name="Singularity Issue Tracker..." width="166">
+			<menu_item_call bottom="-94" enabled="true" height="19" label="VirtualHighway Issue Tracker..."
+			     left="0" mouse_opaque="true" name="VirtualHighway Issue Tracker..." width="166">
 				<on_click function="PromptShowURL" name="SinguIssueTracker_url"
-						userdata="WebLaunchSinguIssue,http://code.google.com/p/singularity-viewer/issues/list" />
+						userdata="WebLaunchSinguIssue,http://code.google.com/p/VirtualHighway-viewer/issues/list" />
 			</menu_item_call>
 			<menu_item_separator bottom="-411" enabled="true" height="8" label="-----------" left="0"
 			     mouse_opaque="true" name="separator7" width="250" />
@@ -973,21 +977,21 @@
 				<on_click function="PromptShowURL" name="ReportBug_url"
 				     userdata="WebLaunchPublicIssue,http://jira.secondlife.com" />
 			</menu_item_call>
-			<menu_item_call bottom="-240" enabled="true" height="19" label="Report Singularity Bug..." left="0"
-			     mouse_opaque="true" name="Report Singularity Bug..." width="166">
+			<menu_item_call bottom="-240" enabled="true" height="19" label="Report VirtualHighway Bug..." left="0"
+			     mouse_opaque="true" name="Report VirtualHighway Bug..." width="166">
 				<on_click function="PromptShowURL" name="ReportSinguBug_url"
-						userdata="WebLaunchSinguIssue,http://code.google.com/p/singularity-viewer/issues/entry" />
+						userdata="WebLaunchSinguIssue,http://code.google.com/p/virtualhighway-viewer/issues/entry" />
 			</menu_item_call>
 			<menu_item_call bottom="-240" enabled="true" height="19" label="Request New Feature..." name="Request New Feature..." width="166">
-				<on_click function="PromptShowURL" name="RequestFeature_url" userdata="WebLaunchSinguIssue,http://code.google.com/p/singularity-viewer/issues/entry?template=Feature%20request"/>
+				<on_click function="PromptShowURL" name="RequestFeature_url" userdata="WebLaunchSinguIssue,http://code.google.com/p/virtualhighway-viewer/issues/entry?template=Feature%20request"/>
 			</menu_item_call>
 		</menu>
-		<menu_item_call bottom="-313" enabled="true" height="19" label="About Singularity..." left="0"
+		<menu_item_call bottom="-313" enabled="true" height="19" label="About VirtualHighway..." left="0"
 		     mouse_opaque="true" name="About Second Life..." width="166">
 			<on_click function="ShowFloater" userdata="about" />
 		</menu_item_call>
 	</menu>
-	<menu create_jump_keys="true" drop_shadow="true" enabled="true" label="Singularity" mouse_opaque="false" name="Singularity" opaque="true" tear_off="true">
+	<menu create_jump_keys="true" drop_shadow="true" enabled="true" label="VirtualHighway" mouse_opaque="false" name="VirtualHighway" opaque="true" tear_off="true">
 		<menu_item_call label="Close All Dialogs" mouse_opaque="true" name="Close All Dialogs" shortcut="control|alt|shift|D">
 			<on_click function="CloseAllDialogs"/>
 		</menu_item_call>

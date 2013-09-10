@@ -33,6 +33,7 @@
 #include "llvisualparam.h"
 #include "llavatarappearancedefines.h"
 #include "llwearable.h"
+#include "lldate.h"
 
 using namespace LLAvatarAppearanceDefines;
 
@@ -66,49 +67,6 @@ const std::string& LLWearable::getTypeName() const
 LLAssetType::EType LLWearable::getAssetType() const
 {
 	return LLWearableType::getAssetType(mType);
-}
-
-// reX: new function
-BOOL LLWearable::FileExportParams( FILE* file ) const
-{
-	// wearable type 
-	S32 type = (S32)mType;
-	fprintf( file, "type %d\n", type );
-
-	// parameters
-	S32 num_parameters = mVisualParamIndexMap.size();
-	fprintf( file, "parameters %d\n", num_parameters );
-
-	for (visual_param_index_map_t::const_iterator iter = mVisualParamIndexMap.begin();
-		 iter != mVisualParamIndexMap.end(); ++iter)
-	{
-		S32 param_id = iter->first;
-		F32 param_weight = iter->second->getWeight();
-		fprintf( file, "%d %s\n", param_id, terse_F32_to_string(param_weight).c_str() );
-	}
-
-	return TRUE;
-}
-
-// reX: new function
-BOOL LLWearable::FileExportTextures( FILE* file ) const
-{
-	// wearable type 
-	S32 type = (S32)mType;
-	fprintf( file, "type %d\n", type );
-
-	// texture entries
-	S32 num_textures = mTEMap.size();
-	fprintf( file, "textures %d\n", num_textures );
-	
-	for (te_map_t::const_iterator iter = mTEMap.begin();
-		 iter != mTEMap.end(); ++iter)
-	{
-		S32 te = iter->first;
-		fprintf( file, "%d %s\n", te, iter->second->getID().asString().c_str() );
-    }
-
-	return TRUE;
 }
 
 BOOL LLWearable::exportFile(LLFILE* fp) const

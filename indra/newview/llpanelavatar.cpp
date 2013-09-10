@@ -60,6 +60,7 @@
 #include "llpreviewtexture.h"
 #include "llpluginclassmedia.h"
 #include "llscrolllistctrl.h"
+#include "llscrolllistitem.h"
 #include "lltabcontainer.h"
 #include "lluictrlfactory.h"
 #include "llviewerwindow.h"
@@ -520,7 +521,7 @@ BOOL LLPanelAvatarSecondLife::postBuild(void)
 
 	getChild<LLUICtrl>("Add Friend...")->setCommitCallback(boost::bind(LLAvatarActions::requestFriendshipDialog, boost::bind(&LLPanelAvatar::getAvatarID, pa)));
 	getChild<LLUICtrl>("Pay...")->setCommitCallback(boost::bind(LLAvatarActions::pay, boost::bind(&LLPanelAvatar::getAvatarID, pa)));
-	childSetAction("Mute", LLPanelAvatar::onClickMute, pa);
+	getChild<LLUICtrl>("Mute")->setCommitCallback(boost::bind(LLAvatarActions::toggleBlock, boost::bind(&LLPanelAvatar::getAvatarID, pa)));
 
 	getChild<LLUICtrl>("Offer Teleport...")->setCommitCallback(boost::bind(static_cast<void(*)(const LLUUID&)>(LLAvatarActions::offerTeleport), boost::bind(&LLPanelAvatar::getAvatarID, pa)));
 
@@ -559,9 +560,9 @@ BOOL LLPanelAvatarWeb::postBuild(void)
 	url_edit->setKeystrokeCallback(boost::bind(&LLPanelAvatarWeb::onURLKeystroke,this,_1));
 	url_edit->setCommitCallback(boost::bind(&LLPanelAvatarWeb::onCommitURL,this,_2));
 
-	childSetAction("web_profile_help",onClickWebProfileHelp,this);
+	getChild<LLUICtrl>("load")->setCommitCallback(boost::bind(&LLPanelAvatarWeb::onCommitLoad, this, _2));
 
-	childSetControlName("auto_load","AutoLoadWebProfiles");
+	childSetAction("web_profile_help",onClickWebProfileHelp,this);
 
 	mWebBrowser = getChild<LLMediaCtrl>("profile_html");
 	mWebBrowser->addObserver(this);
@@ -1393,6 +1394,7 @@ LLPanelAvatar::LLPanelAvatar(
 	factory_map["My Notes"] = LLCallbackMap(createPanelAvatarNotes, this);
 	
 	mCommitCallbackRegistrar.add("Profile.Web", boost::bind(LLAvatarActions::showProfile, boost::bind(&LLPanelAvatar::getAvatarID, this), true));
+	mCommitCallbackRegistrar.add("Profile.TeleportRequest", boost::bind(LLAvatarActions::teleportRequest, boost::bind(&LLPanelAvatar::getAvatarID, this)));
 	LLUICtrlFactory::getInstance()->buildPanel(this, "panel_avatar.xml", &factory_map);
 
 	selectTab(0);
@@ -1724,27 +1726,7 @@ void LLPanelAvatar::onClickGetKey(void *userdata)
 
 	llinfos << "Copy agent id: " << agent_id << llendl;
 
-	gViewerWindow->mWindow->copyTextToClipboard(utf8str_to_wstring(agent_id.asString()));
-}
-
-//-----------------------------------------------------------------------------
-// onClickMute()
-//-----------------------------------------------------------------------------
-void LLPanelAvatar::onClickMute(void *userdata)
-{
-	LLPanelAvatar* self = (LLPanelAvatar*) userdata;
-	
-	LLUUID agent_id = self->getAvatarID();
-
-	LLFloaterMute::showInstance();
-	if (LLAvatarActions::isBlocked(agent_id))
-	{
-		LLFloaterMute::getInstance()->selectMute(agent_id);
-	}
-	else
-	{
-		LLAvatarActions::toggleBlock(agent_id);
-	}
+	gViewerWindow->getWindow()->copyTextToClipboard(utf8str_to_wstring(agent_id.asString()));
 }
 
 // static

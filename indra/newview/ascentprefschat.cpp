@@ -210,6 +210,10 @@ void LLPrefsAscentChat::onCommitDialogBlock(LLUICtrl* ctrl, const LLSD& value)
 		childSetEnabled("Item Offers",            !enabled);
 		childSetEnabled("Scripts",                !enabled);
 		childSetEnabled("Teleport Offers",        !enabled);
+		childSetEnabled("Teleport Requests",      !enabled);
+		childSetEnabled("Except those from:",     !enabled);
+		childSetEnabled("My objects",             !enabled);
+		childSetEnabled("My friends",             !enabled);
 	}
 }
 
@@ -293,6 +297,7 @@ void LLPrefsAscentChat::refreshValues()
 	mOneLineConfButt                = gSavedSettings.getBOOL("UseConciseConferenceButtons");
 	mOnlyComm                       = gSavedSettings.getBOOL("CommunicateSpecificShortcut");
 	mItalicizeActions               = gSavedSettings.getBOOL("LiruItalicizeActions");
+	mLegacySpeakerNames             = gSavedSettings.getBOOL("LiruILegacySpeakerNames");
 
 	//Autoresponse ------------------------------------------------------------------------
 	mIMResponseAnyoneItemID     = gSavedPerAccountSettings.getString("AutoresponseAnyoneItemID");
@@ -329,8 +334,11 @@ void LLPrefsAscentChat::refreshValues()
 	mBlockGroupFeeInviteSpam        = gSavedSettings.getBOOL("AntiSpamGroupFeeInvites");
     mBlockGroupNoticeSpam           = gSavedSettings.getBOOL("AntiSpamGroupNotices");
     mBlockItemOfferSpam             = gSavedSettings.getBOOL("AntiSpamItemOffers");
+	mBlockNotFriendSpam        = gSavedSettings.getBOOL("AntiSpamNotFriend");
+	mBlockNotMineSpam          = gSavedSettings.getBOOL("AntiSpamNotMine");
     mBlockScriptSpam                = gSavedSettings.getBOOL("AntiSpamScripts");
     mBlockTeleportSpam              = gSavedSettings.getBOOL("AntiSpamTeleports");
+	mBlockTeleportRequestSpam       = gSavedSettings.getBOOL("AntiSpamTeleportRequests");
     mNotifyOnSpam                   = gSavedSettings.getBOOL("AntiSpamNotify");
     mSoundMulti                     = gSavedSettings.getU32("_NACL_AntiSpamSoundMulti");
     mNewLines                       = gSavedSettings.getU32("_NACL_AntiSpamNewlines");
@@ -527,6 +535,7 @@ void LLPrefsAscentChat::cancel()
 	gSavedSettings.setBOOL("UseConciseConferenceButtons",          mOneLineConfButt);
 	gSavedSettings.setBOOL("CommunicateSpecificShortcut",          mOnlyComm);
 	gSavedSettings.setBOOL("LiruItalicizeActions",                 mItalicizeActions);
+	gSavedSettings.setBOOL("LiruILegacySpeakerNames",              mLegacySpeakerNames);
 
 	//Autoresponse ------------------------------------------------------------------------
 	gSavedPerAccountSettings.setString("AutoresponseAnyoneItemID",      mIMResponseAnyoneItemID);
@@ -546,8 +555,11 @@ void LLPrefsAscentChat::cancel()
 	gSavedSettings.setBOOL("AntiSpamGroupInvites",           mBlockGroupInviteSpam);
 	gSavedSettings.setBOOL("AntiSpamGroupFeeInvites",		 mBlockGroupFeeInviteSpam);
 	gSavedSettings.setBOOL("AntiSpamItemOffers",             mBlockItemOfferSpam);
+	gSavedSettings.setBOOL("AntiSpamNotFriend",              mBlockNotFriendSpam);
+	gSavedSettings.setBOOL("AntiSpamNotMine",                mBlockNotMineSpam);
 	gSavedSettings.setBOOL("AntiSpamScripts",                mBlockScriptSpam);
 	gSavedSettings.setBOOL("AntiSpamTeleports",              mBlockTeleportSpam);
+	gSavedSettings.setBOOL("AntiSpamTeleportRequests",       mBlockTeleportRequestSpam);
 	gSavedSettings.setBOOL("AntiSpamNotify",                 mNotifyOnSpam);
     gSavedSettings.setU32("_NACL_AntiSpamSoundMulti",        mSoundMulti);
     gSavedSettings.setU32("_NACL_AntiSpamNewlines",          mNewLines);

@@ -275,12 +275,12 @@ std::string LLDir::buildSLOSCacheDir() const
 		}
 		else
 		{
-			res = add(getOSUserAppDir(), "cache_sg1");
+			res = add(getOSUserAppDir(), "cache_vhy");
 		}
 	}
 	else
 	{
-		res = add(getOSCacheDir(), "SingularityViewer");
+		res = add(getOSCacheDir(), "VirtualHighwayViewer");
 	}
 	return res;
 }
@@ -650,7 +650,7 @@ void LLDir::setSkinFolder(const std::string &skin_folder)
 	// user modifications to current skin
 	// e.g. c:\documents and settings\users\username\application data\second life\skins\dazzle
 	mUserSkinDir = getOSUserAppDir();
-	append(mUserSkinDir, "skins_sg1");
+	append(mUserSkinDir, "skins");
 	append(mUserSkinDir, skin_folder);
 
 	// base skin which is used as fallback for all skinned files

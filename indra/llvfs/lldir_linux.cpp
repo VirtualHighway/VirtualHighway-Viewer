@@ -138,7 +138,7 @@ LLDir_Linux::LLDir_Linux()
 
 	mLLPluginDir = mExecutableDir + mDirDelimiter + "llplugin";
 
-	// *TODO: don't use /tmp, use $HOME/.secondlife/tmp or something.
+	// *TODO: don't use /tmp, use $HOME/.virtualhighway/tmp or something.
 	mTempDir = "/tmp";
 }
 
@@ -166,7 +166,7 @@ void LLDir_Linux::initAppDirs(const std::string &app_name,
 	char* app_home_env = getenv((upper_app_name + "_USER_DIR").c_str());	/* Flawfinder: ignore */ 
 	if (app_home_env)
 	{
-		// user has specified own userappdir i.e. $SECONDLIFE_USER_DIR
+		// user has specified own userappdir i.e. $VIRTUALHIGHWAY_USER_DIR
 		mOSUserAppDir = app_home_env;
 	}
 	else

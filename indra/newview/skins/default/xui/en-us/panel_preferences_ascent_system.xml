@@ -59,10 +59,12 @@
       <line_editor bevel_style="in" border_style="line" border_thickness="1" bottom_delta="-20" follows="top" height="20" max_length="256" name="AscentCmdLineCalc" width="200"/>
       <text bottom_delta="-18" follows="top" height="16" name="cmd_line_text_15">Clear the chat history (usage: cmd)</text>
       <line_editor bevel_style="in" border_style="line" border_thickness="1" bottom_delta="-20" follows="top" height="20" max_length="256" tool_tip="Clears the Chat History to prevent lag effects from chat spammers." name="AscentCmdLineClearChat" width="200"/>
+      <text bottom_delta="-18" follows="top" height="16" name="cmd_line_text_16">Open url/slurl (usage: cmd slurl)</text>
+      <line_editor bottom_delta="-20" follows="top" height="20" max_length="256" name="SinguCmdLineURL" width="200"/>
       <!-- Column Split -->
-      <view_border bevel_style="none" border_thickness="1" bottom_delta="-5" follows="top|left" height="295"
+      <view_border bevel_style="none" border_thickness="1" bottom_delta="-5" follows="top|left" height="333"
         left="230" name="CmdDivisor" width="0"/>
-      <text bottom_delta="277" follows="top" height="16" left_delta="10" name="cmd_line_text_9">Change Draw Distance (usage: cmd meters)</text>
+      <text bottom_delta="315" follows="top" height="16" left_delta="10" name="cmd_line_text_9">Change Draw Distance (usage: cmd meters)</text>
       <line_editor bevel_style="in" border_style="line" border_thickness="1" bottom_delta="-20" follows="top" height="20" max_length="256" name="AscentCmdLineDrawDistance" width="200"/>
       <text bottom_delta="-18" follows="top" height="16" name="cmd_line_text_10">Teleport to cam position (usage: cmd)</text>
       <line_editor bevel_style="in" border_style="line" border_thickness="1" bottom_delta="-20" follows="top" height="20" max_length="256" name="AscentCmdTeleportToCam" width="200"/>
@@ -134,7 +136,7 @@
         <combo_item name="High" value="High">High</combo_item>
       </combo_box>
       <check_box name="EmeraldBuildPrefsEmbedItem" left="5" bottom_delta="-20" follows="top" initial_value="false" label="Put an item into new objects" control_name="EmeraldBuildPrefs_EmbedItem"/>
-       <drop_target control_name="EmeraldBuildPrefs_Item" bottom_delta="-5" left="10" height="15" name="build_item_add_disp_rect" width="270"/>
+       <drop_target control_name="EmeraldBuildPrefs_Item" bottom_delta="-3" left="9" height="17" name="build_item_add_disp_rect" width="274"/>
       <check_box bottom_delta="4" follows="top" left_delta="274" label="Highlight selected prims" name="EmBuildPrefsRenderHighlight_toggle" control_name="RenderHighlightSelections"/>
       <check_box bottom_delta="-20" follows="top" initial_value="false" label="Axis arrow on root prim position" tool_tip="Default behaviour is to show the axis on the center of mass of a linkset. If enabled, the axis will be shown on the root prim of the linkset instead." name="EmBuildPrefsActualRoot_toggle" control_name="AscentBuildPrefs_ActualRoot"/>
     </panel>

@@ -86,7 +86,9 @@ set(viewer_SOURCE_FILES
     ascentprefschat.cpp
     ascentprefssys.cpp
     ascentprefsvan.cpp
+    awavefront.cpp
     chatbar_as_cmdline.cpp
+    daeexport.cpp
     floaterao.cpp
     floaterlocalassetbrowse.cpp
     floatervoicelicense.cpp
@@ -99,6 +101,7 @@ set(viewer_SOURCE_FILES
     hippopanelgrids.cpp
     importtracker.cpp
     jcfloaterareasearch.cpp
+    lffloaterinvpanel.cpp
     lfsimfeaturehandler.cpp
     lggdicdownload.cpp
     lgghunspell_wrapper.cpp
@@ -318,6 +321,7 @@ set(viewer_SOURCE_FILES
     llmapresponders.cpp
     llmarketplacefunctions.cpp
     llmarketplacenotifications.cpp
+    llmaterialmgr.cpp
     llmediactrl.cpp
     llmediadataclient.cpp
     llmediaremotectrl.cpp
@@ -597,7 +601,9 @@ set(viewer_HEADER_FILES
     ascentprefschat.h
     ascentprefssys.h
     ascentprefsvan.h
+    awavefront.h
     chatbar_as_cmdline.h
+    daeexport.h
     floaterao.h
     floaterlocalassetbrowse.h
     floatervoicelicense.h
@@ -610,6 +616,7 @@ set(viewer_HEADER_FILES
     hippopanelgrids.h
     importtracker.h
     jcfloaterareasearch.h
+    lffloaterinvpanel.h
     lfsimfeaturehandler.h
     lggdicdownload.h
     lgghunspell_wrapper.h
@@ -830,6 +837,7 @@ set(viewer_HEADER_FILES
     llmapresponders.h
     llmarketplacefunctions.h
     llmarketplacenotifications.h
+    llmaterialmgr.h
     llmediactrl.h
     llmediadataclient.h
     llmediaremotectrl.h
@@ -1520,7 +1528,7 @@ if (WINDOWS)
             ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
         )
 
-    add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit basic_plugin_filepicker)
+    add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit basic_plugin_filepicker winmm_shim)
 
     if (PACKAGE)
       add_custom_target(package ALL DEPENDS ${CMAKE_CFG_INTDIR}/touched.bat)
@@ -1561,6 +1569,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${Boost_PROGRAM_OPTIONS_LIBRARY}
     ${Boost_REGEX_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
+    ${Boost_DATE_TIME_LIBRARY}
     ${DBUSGLIB_LIBRARIES}
     ${OPENGL_LIBRARIES}
     ${FMODWRAPPER_LIBRARY} # must come after LLAudio
@@ -1806,6 +1815,17 @@ if (WINDOWS)
         COMMENT "Copying filepicker Plugin to the runtime folder."
         )
 
+	get_target_property(BUILT_WINMM_SHIM_PLUGIN winmm_shim LOCATION)
+    add_custom_command(
+        TARGET ${VIEWER_BINARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+        ARGS
+          -E
+          copy_if_different
+          ${BUILT_WINMM_SHIM_PLUGIN}
+          ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
+        COMMENT "Copying winmm.dll to the runtime folder."
+        )
   # Copying the mime_types.xml file to app_settings
   set(mime_types_source "${CMAKE_SOURCE_DIR}/newview/skins/default/xui/en-us")
   set(mime_types_dest "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/app_settings")

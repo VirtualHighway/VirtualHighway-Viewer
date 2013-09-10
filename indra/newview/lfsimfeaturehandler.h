@@ -19,15 +19,16 @@
 #define LFSIMFEATUREHANDLER_H
 
 #include "llsingleton.h"
+#include "llpermissions.h"	// ExportPolicy
 
-template<typename Type>
+template<typename Type, typename Signal = boost::signals2::signal<void()> >
 class SignaledType
 {
 public:
+	SignaledType() : mValue() {}
 	SignaledType(Type b) : mValue(b) {}
 
-	template<typename Slot>
-	boost::signals2::connection connect(Slot slot) { return mSignal.connect(slot); }
+	boost::signals2::connection connect(const typename Signal::slot_type& slot) { return mSignal.connect(slot); }
 
 	SignaledType& operator =(Type val)
 	{
@@ -41,7 +42,7 @@ public:
 	operator Type() const { return mValue; }
 
 private:
-	boost::signals2::signal<void()> mSignal;
+	Signal mSignal;
 	Type mValue;
 };
 
@@ -57,13 +58,19 @@ public:
 
 	// Connection setters
 	boost::signals2::connection setSupportsExportCallback(const boost::signals2::signal<void()>::slot_type& slot);
+	boost::signals2::connection setSearchURLCallback(const boost::signals2::signal<void()>::slot_type& slot);
 
 	// Accessors
 	bool simSupportsExport() const { return mSupportsExport; }
+	std::string mapServerURL() const { return mMapServerURL; }
+	std::string searchURL() const { return mSearchURL; }
+	ExportPolicy exportPolicy() const;
 
 private:
 	// SignaledTypes
 	SignaledType<bool> mSupportsExport;
+	std::string mMapServerURL;
+	SignaledType<std::string> mSearchURL;
 };
 
 #endif //LFSIMFEATUREHANDLER_H

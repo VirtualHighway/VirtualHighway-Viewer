@@ -62,6 +62,8 @@ BOOL LLPanelGeneral::postBuild()
 	LLComboBox* namesystem_combobox = getChild<LLComboBox>("namesystem_combobox");
 	namesystem_combobox->setCurrentByIndex(gSavedSettings.getS32("PhoenixNameSystem"));
 
+	getChild<LLUICtrl>("show_resident_checkbox")->setValue(gSavedSettings.getBOOL("LiruShowLastNameResident"));
+
 	std::string login_location = gSavedSettings.getString("LoginLocation");
 	if(login_location != "last" && login_location != "home")
 		login_location = "last";
@@ -140,11 +142,13 @@ void LLPanelGeneral::apply()
 	LLComboBox* fade_out_combobox = getChild<LLComboBox>("fade_out_combobox");
 	gSavedSettings.setS32("RenderName", fade_out_combobox->getCurrentIndex());
 	
-	LLComboBox* namesystem_combobox = getChild<LLComboBox>("namesystem_combobox");
-	if(gSavedSettings.getS32("PhoenixNameSystem")!=namesystem_combobox->getCurrentIndex()){
-		gSavedSettings.setS32("PhoenixNameSystem", namesystem_combobox->getCurrentIndex());
+	S32 namesystem_combobox_index = getChild<LLComboBox>("namesystem_combobox")->getCurrentIndex();
+	BOOL show_resident = getChild<LLUICtrl>("show_resident_checkbox")->getValue();
+	if(gSavedSettings.getS32("PhoenixNameSystem")!=namesystem_combobox_index || gSavedSettings.getBOOL("LiruShowLastNameResident")!=show_resident){
+		gSavedSettings.setS32("PhoenixNameSystem", namesystem_combobox_index);
+		gSavedSettings.setBOOL("LiruShowLastNameResident", show_resident);
 		if(gAgent.getRegion()){
-			if(namesystem_combobox->getCurrentIndex()<=0 || namesystem_combobox->getCurrentIndex()>2) LLAvatarNameCache::setUseDisplayNames(false);
+			if(namesystem_combobox_index<=0 || namesystem_combobox_index>2) LLAvatarNameCache::setUseDisplayNames(false);
 			else LLAvatarNameCache::setUseDisplayNames(true);
 			LLVOAvatar::invalidateNameTags(); // Remove all clienttags to get them updated
 

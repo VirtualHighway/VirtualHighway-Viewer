@@ -564,7 +564,6 @@ protected:
 		bool mNameResolved;
 		bool mInSLFriends;
 		bool mInVivoxBuddies;
-		bool mNeedsNameUpdate;
 	};
 
 	typedef std::map<std::string, buddyListEntry*> buddyListMap;
@@ -623,6 +622,7 @@ protected:
 	void lookupName(const LLUUID &id);
 	void onAvatarNameCache(const LLUUID& id, const LLAvatarName& av_name);
 	void avatarNameResolved(const LLUUID &id, const std::string &name);
+	boost::signals2::connection mAvatarNameCacheConnection;
 
 	/////////////////////////////
 	// Voice fonts
@@ -724,6 +724,8 @@ private:
 	bool mCaptureDeviceDirty;
 	bool mRenderDeviceDirty;
 
+	bool mIsInitialized;
+
 
 	bool checkParcelChanged(bool update = false);
 	// This should be called when the code detects we have changed parcels.
@@ -784,7 +786,8 @@ private:
 	{
 		earLocCamera = 0,		// ear at camera
 		earLocAvatar,			// ear at avatar
-		earLocMixed				// ear at avatar location/camera direction
+		earLocMixed,			// ear at avatar location/camera direction
+		earLocSpeaker			// ear at speaker, speakers not affected by position
 	};
 
 	S32			mEarLocation;
@@ -1014,3 +1017,4 @@ protected:
 
 
 #endif //LL_VIVOX_VOICE_CLIENT_H
+

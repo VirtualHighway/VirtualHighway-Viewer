@@ -8,10 +8,10 @@
 	     start_url="data:text/html,%3Chtml%3E%3Chead%3E%3C/head%3E%3Cbody bgcolor=%22#000000%22 text=%22ffffff%22%3E%3Ch1%3E%3Ctt%3Eloading...%3C/tt%3E%3C/h1%3E %3C/body%3E %3C/html%3E"
 	     top="-1" />
 	<string name="real_url">
-		http://secondlife.com/app/login/
+		http://virtualhighway.us/welcome.php
 	</string>
 	<string name="forgot_password_url">
-		http://secondlife.com/account/request.php
+		http://www.virtualhighway.us/users/lostPassword
 	</string>
   <layout_stack name="element_stack" border_size="0" left="28" right="800" top="70" bottom="10" follows="left|bottom" orientation="horizontal">
     <layout_panel name="name_panel" left="0" user_resize="false" auto_resize="false" width="163" min_width="0">
@@ -23,7 +23,7 @@
       </text>
       <combo_box bevel_style="in" border_style="line" border_thickness="1" bottom_delta="-24"
          font="SansSerif" handle_edit_keys_directly="true" height="20" left="4"
-         max_chars="64" mouse_opaque="true" name="name_combo"
+         max_chars="64" mouse_opaque="true" name="username_combo"
          select_all_on_focus_received="true" width="155" allow_text_entry="true" />
       <check_box bottom="0" control_name="RememberName"
          follows="left|bottom" font="SansSerifSmall" height="16"

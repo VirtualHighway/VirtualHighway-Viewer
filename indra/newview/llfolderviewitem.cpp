@@ -615,6 +615,15 @@ void LLFolderViewItem::rename(const std::string& new_name)
 	}
 }
 
+void LLFolderViewItem::nameOrDescriptionChanged(void) const
+{
+	// Inform the listeners. Our name was already updated (and we don't have a description).
+	if( mListener )
+	{
+		mListener->nameOrDescriptionChanged();
+	}
+}
+
 void LLFolderViewItem::updateSearchLabelType()
 {
 	mSearchType = mRoot->getSearchType();
@@ -2872,3 +2881,4 @@ bool LLInventorySort::operator()(const LLFolderViewItem* const& a, const LLFolde
 		}
 	}
 }
+

@@ -32,22 +32,19 @@
 #ifndef LL_IMPANEL_H
 #define LL_IMPANEL_H
 
-#include "llavatarnamecache.h"
 #include "llfloater.h"
 #include "lllogchat.h"
-#include "lluuid.h"
-#include "lldarray.h"
-#include "llinstantmessage.h"
-#include "llvoiceclient.h"
 #include "llstyle.h"
 
-class LLLineEditor;
-class LLViewerTextEditor;
-class LLInventoryItem;
-class LLInventoryCategory;
-class LLIMSpeakerMgr;
-class LLParticipantList;
+class LLAvatarName;
 class LLButton;
+class LLIMSpeakerMgr;
+class LLIMInfo;
+class LLInventoryCategory;
+class LLInventoryItem;
+class LLLineEditor;
+class LLParticipantList;
+class LLViewerTextEditor;
 class LLVoiceChannel;
 
 class LLFloaterIMPanel : public LLFloater
@@ -95,7 +92,6 @@ public:
 	void selectAll();
 	void selectNone();
 	void setVisible(BOOL b);
-	BOOL mRPMode;
 
 	S32 getNumUnreadMessages() { return mNumUnreadMessages; }
 
@@ -113,8 +109,8 @@ public:
 	void			onInputEditorKeystroke(LLLineEditor* caller);
 	static void		onTabClick( void* userdata );
 
-	static void		onClickHistory( void* userdata );
-	void			onRPMode(const LLSD& value);
+	void			onClickHistory();
+	void			onFlyoutCommit(class LLComboBox* flyout, const LLSD& value);
 	static void		onClickStartCall( void* userdata );
 	static void		onClickEndCall( void* userdata );
 	void			onClickToggleActiveSpeakers(const LLSD& value);
@@ -238,6 +234,9 @@ private:
 	BOOL mTextIMPossible;
 	BOOL mProfileButtonEnabled;
 	BOOL mCallBackEnabled;
+
+	bool mDing; // Whether or not to play a ding on new messages
+	bool mRPMode;
 
 	LLIMSpeakerMgr* mSpeakers;
 	LLParticipantList* mSpeakerPanel;

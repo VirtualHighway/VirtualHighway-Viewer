@@ -1,7 +1,7 @@
 /* Localized versions of Info.plist keys */
 
-CFBundleName = "Singularity";
+CFBundleName = "VirtualHighway";
 
-CFBundleShortVersionString = "Singularity Viewer 1.7.0.0";
-CFBundleGetInfoString = "Singularity Viewer 1.7.0.0, Copyright 2012 Siana Gearz";
+CFBundleShortVersionString = "VirtualHighway Viewer 3.7.0";
+CFBundleGetInfoString = "VirtualHighway Viewer 3.7.0.0, VirtualHighway project";
 

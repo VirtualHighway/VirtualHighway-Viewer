@@ -90,9 +90,6 @@
 #include "llstring.h"
 #include <cctype>
 
-class AIHTTPTimeoutPolicy;
-extern AIHTTPTimeoutPolicy iamHereLogin_timeout;
-
 const S32 BLACK_BORDER_HEIGHT = 160;
 const S32 MAX_PASSWORD = 16;
 
@@ -158,47 +155,6 @@ public:
 
 LLLoginRefreshHandler gLoginRefreshHandler;
 
-// helper class that trys to download a URL from a web site and calls a method 
-// on parent class indicating if the web server is working or not
-class LLIamHereLogin : public LLHTTPClient::ResponderHeadersOnly
-{
-	private:
-		LLIamHereLogin( LLPanelLogin* parent ) :
-		   mParent( parent )
-		{}
-
-		LLPanelLogin* mParent;
-
-	public:
-		static boost::intrusive_ptr< LLIamHereLogin > build( LLPanelLogin* parent )
-		{
-			return boost::intrusive_ptr< LLIamHereLogin >( new LLIamHereLogin( parent ) );
-		};
-
-		virtual void  setParent( LLPanelLogin* parentIn )
-		{
-			mParent = parentIn;
-		};
-
-		/*virtual*/ void completedHeaders(U32 status, std::string const& reason, AIHTTPReceivedHeaders const& headers)
-		{
-			if (mParent)
-			{
-				if(200 <= status && status < 300)
-					llinfos << "Found site" << llendl;
-				mParent->setSiteIsAlive(200 <= status && status < 300);
-			}
-		}
-
-		/*virtual*/ AIHTTPTimeoutPolicy const& getHTTPTimeoutPolicy(void) const { return iamHereLogin_timeout; }
-
-		/*virtual*/ char const* getName(void) const { return "LLIamHereLogin"; }
-};
-
-// this is global and not a class member to keep crud out of the header file
-namespace {
-	boost::intrusive_ptr< LLIamHereLogin > gResponsePtr = 0;
-};
 
 //---------------------------------------------------------------------------
 // Public methods
@@ -231,12 +187,12 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	
 	reshape(rect.getWidth(), rect.getHeight());
 
-	LLComboBox* name_combo = sInstance->getChild<LLComboBox>("name_combo");
-	name_combo->setCommitCallback(boost::bind(LLPanelLogin::onSelectLoginEntry, _1, this));
-	name_combo->setFocusLostCallback(boost::bind(&LLPanelLogin::onLoginComboLostFocus, this, name_combo));
-	name_combo->setPrevalidate(LLLineEditor::prevalidatePrintableNotPipe);
-	name_combo->setSuppressTentative(true);
-	name_combo->setSuppressAutoComplete(true);
+	LLComboBox* username_combo(getChild<LLComboBox>("username_combo"));
+	username_combo->setCommitCallback(boost::bind(LLPanelLogin::onSelectLoginEntry, _1, this));
+	username_combo->setFocusLostCallback(boost::bind(&LLPanelLogin::onLoginComboLostFocus, this, username_combo));
+	username_combo->setPrevalidate(LLLineEditor::prevalidatePrintableNotPipe);
+	username_combo->setSuppressTentative(true);
+	username_combo->setSuppressAutoComplete(true);
 
 	childSetCommitCallback("remember_name_check", onNameCheckChanged);
 
@@ -289,6 +245,15 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	childSetAction("connect_btn", onClickConnect, this);
 
 	setDefaultBtn("connect_btn");
+	// Also set default button for subpanels, otherwise hitting enter in text entry fields won't login
+	{
+		LLButton* connect_btn(findChild<LLButton>("connect_btn"));
+		findChild<LLPanel>("name_panel")->setDefaultBtn(connect_btn);
+		findChild<LLPanel>("password_panel")->setDefaultBtn(connect_btn);
+		findChild<LLPanel>("grids_panel")->setDefaultBtn(connect_btn);
+		findChild<LLPanel>("location_panel")->setDefaultBtn(connect_btn);
+		findChild<LLPanel>("login_html")->setDefaultBtn(connect_btn);
+	}
 
 	childSetAction("grids_btn", onClickGrids, this);
 
@@ -383,10 +348,6 @@ LLPanelLogin::~LLPanelLogin()
 {
 	LLPanelLogin::sInstance = NULL;
 
-	// tell the responder we're not here anymore
-	if ( gResponsePtr )
-		gResponsePtr->setParent( 0 );
-
 	if ( gFocusMgr.getDefaultKeyboardFocus() == this )
 	{
 		gFocusMgr.setDefaultKeyboardFocus(NULL);
@@ -397,7 +358,7 @@ void LLPanelLogin::setLoginHistory(LLSavedLogins const& login_history)
 {
 	sInstance->mLoginHistoryData = login_history;
 
-	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("name_combo");
+	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("username_combo");
 	llassert(login_combo);
 	login_combo->clear();
 
@@ -579,7 +540,7 @@ void LLPanelLogin::setFields(const std::string& firstname,
 		return;
 	}
 
-	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("name_combo");
+	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("username_combo");
 
 	llassert_always(firstname.find(' ') == std::string::npos);
 	login_combo->setLabel(nameJoin(firstname, lastname, false));
@@ -620,10 +581,10 @@ void LLPanelLogin::setFields(const LLSavedLoginEntry& entry, bool takeFocus)
 
 	LLCheckBoxCtrl* remember_pass_check = sInstance->getChild<LLCheckBoxCtrl>("remember_check");
 	std::string fullname = nameJoin(entry.getFirstName(), entry.getLastName(), entry.isSecondLife()); 
-	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("name_combo");
+	LLComboBox* login_combo = sInstance->getChild<LLComboBox>("username_combo");
 	login_combo->setTextEntry(fullname);
 	login_combo->resetTextDirty();
-	//sInstance->childSetText("name_combo", fullname);
+	//sInstance->childSetText("username_combo", fullname);
 
 	std::string grid = entry.getGrid();
 	//grid comes via LLSavedLoginEntry, which uses full grid names, not nicks
@@ -663,7 +624,7 @@ void LLPanelLogin::getFields(std::string *firstname,
 		return;
 	}
 	
-	nameSplit(sInstance->getChild<LLComboBox>("name_combo")->getTextEntry(), *firstname, *lastname);
+	nameSplit(sInstance->getChild<LLComboBox>("username_combo")->getTextEntry(), *firstname, *lastname);
 	LLStringUtil::trim(*firstname);
 	LLStringUtil::trim(*lastname);
 	
@@ -843,12 +804,9 @@ void LLPanelLogin::loadLoginPage()
 		params["firstlogin"] = "TRUE"; // not bool: server expects string TRUE
  	}
  
- 	if(login_page_str.find("secondlife.com") == -1)
-	{
-		params["version"]= llformat("%d.%d.%d (%d)",
- 						gVersionMajor, gVersionMinor, gVersionPatch, gVersionBuild);
-		params["channel"] = gVersionChannel;
-	}
+	params["version"]= llformat("%d.%d.%d (%d)",
+				gVersionMajor, gVersionMinor, gVersionPatch, gVersionBuild);
+	params["channel"] = gVersionChannel;
 
 	// Grid
 
@@ -887,6 +845,13 @@ void LLPanelLogin::loadLoginPage()
 	
 	gViewerWindow->setMenuBackgroundColor(false, !LLViewerLogin::getInstance()->isInProductionGrid());
 	gLoginMenuBarView->setBackgroundColor(gMenuBarView->getBackgroundColor());
+
+	std::string virtualhighway_splash_uri = gSavedSettings.getString("virtualhighwaySplashPagePrefix");
+	if (!virtualhighway_splash_uri.empty())
+	{
+		params["original_page"] = login_uri.asString();
+		login_uri = LLURI::buildHTTP(virtualhighway_splash_uri, gSavedSettings.getString("virtualhighwaySplashPagePath"), params);
+	}
 
 	LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
 	if (web_browser->getCurrentNavUrl() != login_uri.asString())
@@ -931,15 +896,11 @@ void LLPanelLogin::onClickConnect(void *)
 	if (sInstance && sInstance->mCallback)
 	{
 
-		// tell the responder we're not here anymore
-		if ( gResponsePtr )
-			gResponsePtr->setParent( 0 );
-
 		// JC - Make sure the fields all get committed.
-		sInstance->setFocus(FALSE);
+		gFocusMgr.setKeyboardFocus(NULL);
 
 		std::string first, last, password;
-		if (nameSplit(sInstance->getChild<LLComboBox>("name_combo")->getTextEntry(), first, last))
+		if (nameSplit(sInstance->getChild<LLComboBox>("username_combo")->getTextEntry(), first, last))
 		{
 			// has both first and last name typed
 			sInstance->mCallback(0, sInstance->mCallbackData);
@@ -1056,21 +1017,12 @@ void LLPanelLogin::refreshLoginPage()
 		LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
 		if (web_browser->getCurrentNavUrl() != login_page)
 		{
-			if(gResponsePtr)
-				gResponsePtr->setParent(0);	//Tell our previous responder that we no longer require its result.
-			gResponsePtr.reset();			//Deref previous responder
-
-			llinfos << "Firing off lookup for " << login_page << llendl;
-			// kick off a request to grab the url manually
-			gResponsePtr = LLIamHereLogin::build(sInstance);
-			LLHTTPClient::head(login_page, gResponsePtr.get());
+			//Singu note: No idea if site is alive, but we no longer check before loading.
+			sInstance->setSiteIsAlive(true);
 		}
 	}
 	else
 	{
-		if(gResponsePtr)
-			gResponsePtr->setParent(0);	//Tell our previous responder that we no longer require its result.
-		gResponsePtr.reset();			//Deref previous responder
 		sInstance->setSiteIsAlive(false);
 	}
 }
@@ -1097,7 +1049,7 @@ void LLPanelLogin::onSelectLoginEntry(LLUICtrl* ctrl, void* data)
 {
 	if (sInstance)
 	{
-		LLComboBox* combo = sInstance->getChild<LLComboBox>("name_combo");
+		LLComboBox* combo = sInstance->getChild<LLComboBox>("username_combo");
 		if (ctrl == combo)
 		{
 			LLSD selected_entry = combo->getSelectedValue();
